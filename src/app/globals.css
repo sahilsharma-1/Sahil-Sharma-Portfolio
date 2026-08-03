@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+/* =========================================================
+   EDITORIAL DESIGN SYSTEM — light, magazine-clean, one
+   restrained accent. Built for a personal portfolio aimed at
+   brand/marketing/consulting readers, not an agency site.
+   ========================================================= */
+:root {
+  --ink: #14140f;
+  --ink-soft: rgba(20, 20, 15, 0.68);
+  --ink-dim: rgba(20, 20, 15, 0.45);
+  --bg: #faf9f6;
+  --paper: #ffffff;
+  --line: rgba(20, 20, 15, 0.12);
+  --line-soft: rgba(20, 20, 15, 0.07);
+  --accent: #9c6b1f;
+  --accent-soft: #c79a4c;
+  --accent-tint: rgba(156, 107, 31, 0.08);
+}
+
+.font-serif-display { font-family: var(--font-fraunces), Georgia, 'Times New Roman', serif; }
+.font-sans-body { font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif; }
+.font-mono-label { font-family: var(--font-inter), ui-monospace, monospace; }
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-fraunces);
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+}
+
+/* ---- accent gradient text (used sparingly, on 1-2 words per section) ---- */
+.ed-accent-text {
+  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---- eyebrow label ---- */
+.ed-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.ed-eyebrow::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* ---- hairline gradient rule (small decorative underline) ---- */
+.ed-rule {
+  width: 56px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+}
+
+/* ---- card ---- */
+.ed-card {
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+}
+
+/* ---- soft hover lift ---- */
+.ed-lift {
+  transition: transform 0.35s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+}
+.ed-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 60px -20px rgba(20, 20, 15, 0.18);
+  border-color: rgba(20, 20, 15, 0.2);
+}
+
+/* ---- marquee (used at reduced speed for a calmer, editorial feel) ---- */
+@keyframes ed-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.ed-marquee-track { animation: ed-marquee 42s linear infinite; }
+.group:hover .ed-marquee-track { animation-play-state: paused; }
+
+/* ---- gentle float, used behind hero monogram only ---- */
+@keyframes ed-float {
+  0%, 100% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(0, -14px) rotate(1deg); }
+}
+.ed-float { animation: ed-float 9s ease-in-out infinite; }
+
+/* ---- fine grain, extremely subtle — paper texture, not video noise ---- */
+.ed-grain {
+  opacity: 0.035;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ---- cursor spotlight for cards (much softer than the dark-theme version) ---- */
+.ed-spotlight { position: relative; }
+.ed-spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(480px circle at var(--x, 50%) var(--y, 50%), rgba(156, 107, 31, 0.07), transparent 45%);
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
+}
+.ed-spotlight:hover::before { opacity: 1; }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .ed-marquee-track,
+  .ed-float {
+    animation: none !important;
+  }
+}
