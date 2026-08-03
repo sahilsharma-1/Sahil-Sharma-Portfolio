@@ -1,7 +1,8 @@
 import Navbar from "@/components/Navbar";
-import Hero from "@/components/Hero";
+import Hero from "@/components/Hero.jsx";
 import CapabilitiesStrip from "@/components/CapabilitiesStrip";
 import About from "@/components/About.jsx";
+import Videos from "@/components/videos.jsx";
 import Experience from "@/components/Experience";
 import Campaigns from "@/components/Campaigns";
 import OurCases from "@/components/OurCases";
@@ -19,6 +20,7 @@ export default function Portfolio() {
       <Hero />
       <CapabilitiesStrip />
       <About />
+      <Videos />
       <Experience />
       <Campaigns />
       <OurCases />
