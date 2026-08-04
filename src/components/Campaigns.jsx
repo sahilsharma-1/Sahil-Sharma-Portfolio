@@ -18,7 +18,7 @@ const CAMPAIGNS = [
       { value: "35K+", label: "listens across platforms" },
       { value: "4.2M+", label: "organic impressions in year one" },
     ],
-    img: "https://picsum.photos/seed/nestlevel-podcast/900/700",
+img: "/images/projects/Nestlevel Podcast.png",
     imgAlt: "Podcast production placeholder image",
     href: "https://nestlevel.vfairs.com/",
     linkLabel: "nestlevel.vfairs.com",
@@ -31,7 +31,7 @@ const CAMPAIGNS = [
     copy:
       "A one-stop creative system to redefine how Nestlé attracts, inspires and influences talent. Phase 1 — 'Job Ads That Win Talent' — shipped a Playbook, an Editorial Charter and a library of customizable Canva templates, now live across Zone AOA and used directly by nominated recruiters.",
     quote: "This is more than a toolkit — it's a creative reset for recruitment marketing at Nestlé.",
-    img: "https://picsum.photos/seed/recruiter-toolkit/900/700",
+   img: "/images/projects/Recruiter Toolkit.jpg",
     imgAlt: "Recruiter toolkit template system placeholder image",
   },
   {
@@ -52,7 +52,7 @@ const CAMPAIGNS = [
       { value: "620K+", label: "employee advocacy content reach" },
       { value: "$3,478", label: "earned media value tracked" },
     ],
-    img: "https://picsum.photos/seed/talent-insights/900/700",
+    img: "/images/projects/Talent Attraction Insights.jpg",
     imgAlt: "Talent attraction analytics dashboard placeholder image",
   },
 ];
