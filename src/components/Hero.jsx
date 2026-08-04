@@ -239,7 +239,7 @@ Motion Graphics • AI Automation • Creative Development
 
 </div>
             <a
-              href="#projects"
+              href="https://1drv.ms/f/c/9D204D9914DB706E/IgDDmNCDVd8HSbckbsHIISDxATffYHA9gHGlYeyS1mIsVHo?e=t7kRop"
               className="mt-10 inline-flex rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:scale-105"
             >
               View Work

@@ -7,7 +7,7 @@ import Experience from "@/components/Experience";
 import Campaigns from "@/components/Campaigns";
 import OurCases from "@/components/OurCases";
 import AutomationShowcase from "@/components/AutomationShowcase";
-import Stats from "@/components/Stats";
+import Reels from "@/components/Reels";
 import Benefits from "@/components/Benefits";
 import FAQ from "@/components/FAQ";
 import CTASection from "@/components/CTASection";
@@ -22,12 +22,13 @@ export default function Portfolio() {
       <About />
       <Videos />
       <Experience />
+      {/* <Reels /> */}
       <Campaigns />
       <OurCases />
       <AutomationShowcase />
-      <Stats />
-      <Benefits />
-      <FAQ />
+      {/* <Stats /> */}
+      {/* <Benefits /> */}
+      {/* <FAQ /> */}
       <CTASection />
       <Footer />
     </main>
