@@ -178,21 +178,17 @@ function chunk(array, size) {
 
         {/* Text */}
 
-        <div className="relative z-20 mx-auto flex w-full max-w-7xl px-8">
-
-          <div className="max-w-lg">
-
-            <p className="font-serif italic text-2xl text-orange-400">
-Digital Creative 
+<div className="relative z-20 mx-auto flex w-full max-w-7xl px-6 sm:px-8 lg:px-12">
+  <div className="w-full max-w-xl">
+<p className="font-serif italic text-lg text-orange-400 sm:text-xl md:text-2xl">
+  Digital Creative
 </p>
 
-<h1 className="mt-4 text-[110px] font-extrabold leading-[0.88] tracking-[-0.06em] text-white">
-Sahil Sharma
+<h1 className="mt-4 text-5xl font-extrabold leading-[0.9] tracking-[-0.05em] text-white sm:text-6xl md:text-7xl lg:text-8xl xl:text-[110px]">
+  Sahil Sharma
 </h1>
 
-
-
-<p className="mt-6 max-w-sm text-[18px] leading-8 text-zinc-400">
+<p className="mt-6 max-w-md text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8">
 Motion Graphics • AI Automation • Creative Development
 </p>
             <div className="mt-10">
@@ -201,38 +197,33 @@ Motion Graphics • AI Automation • Creative Development
     Worked With
   </p>
 
-<div className="flex items-center gap-8 opacity-80">
+<div className="flex flex-wrap items-center gap-5 opacity-80">
 
   <img
-    src="/images/Oplexa.png"
-    alt="Oplexa"
-    className="h-9 object-contain brightness-0 invert"
-  />
+  src="/images/Oplexa.png"
+  className="h-6 sm:h-7 md:h-8 lg:h-9 object-contain brightness-0 invert"
+/>
 
-  <img
-    src="/images/mcura.png"
-    alt="mCURA"
-    className="h-9 object-contain brightness-0 invert"
-  />
+<img
+  src="/images/mcura.png"
+  className="h-6 sm:h-7 md:h-8 lg:h-9 object-contain brightness-0 invert"
+/>
 
-  <img
-    src="/images/createprotocol.png"
-    alt="Create Protocol"
-    className="h-16 object-contain invert"
-  />
+<img
+  src="/images/createprotocol.png"
+  className="h-10 sm:h-12 md:h-14 lg:h-16 object-contain invert"
+/>
 
-  <img
-    src="/images/Nestle.png"
-    alt="Nestlé"
-    className="h-13 object-contain brightness-0 invert"
-  />
-
+<img
+  src="/images/Nestle.png"
+  className="h-8 sm:h-10 md:h-11 lg:h-12 object-contain brightness-0 invert"
+/>
 </div>
 
 </div>
             <a
               href="https://1drv.ms/f/c/9D204D9914DB706E/IgDDmNCDVd8HSbckbsHIISDxATffYHA9gHGlYeyS1mIsVHo?e=t7kRop"
-              className="mt-10 inline-flex rounded-full bg-white px-8 py-4 font-semibold text-black transition hover:scale-105"
+className="mt-10 inline-flex rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition hover:scale-105 sm:px-8 sm:py-4 sm:text-base"
             >
               View Work
             </a>
