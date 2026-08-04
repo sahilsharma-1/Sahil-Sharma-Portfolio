@@ -7,13 +7,16 @@ import { Play, X, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 const SHORTS = [
   "https://youtube.com/shorts/5vV5RcTTyDU",
   "https://youtube.com/shorts/qQuqxikwp6s",
-  "https://youtube.com/shorts/KPqkmKwCju8",
-  "https://youtube.com/shorts/zESM6OBCOTU",
+  "https://youtube.com/shorts/a-uD0fN_ErU",
+"https://youtube.com/shorts/aaPOUV8Vjw4",
+"https://youtube.com/shorts/zpWo2-klVZk",
+
   "https://youtube.com/shorts/kkFpHUpqSWc",
-  "https://youtube.com/shorts/aaPOUV8Vjw4",
+  "https://youtube.com/shorts/zESM6OBCOTU",
   "https://youtube.com/shorts/3fbjAk4_iHk",
   "https://youtube.com/shorts/HkNF3tRG7v0",
   "https://youtube.com/shorts/vBK5k76EYT4",
+ 
 ];
 
 // Accepts a full youtube.com/shorts/, youtu.be/, watch?v= link, or a bare

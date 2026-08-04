@@ -224,7 +224,7 @@ Motion Graphics • AI Automation • Creative Development
   />
 
   <img
-    src="/images/createprotocol.jpg"
+    src="/images/createprotocol.png"
     alt="Create Protocol"
     className="h-16 object-contain invert"
   />
