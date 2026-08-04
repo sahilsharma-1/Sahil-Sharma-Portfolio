@@ -4,27 +4,50 @@ import { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 
-// Reels — just drop your Vimeo video ID into `id` for each slot below.
-// The poster thumbnail is fetched automatically from Vimeo's oEmbed
-// endpoint, so you don't need to export/upload a separate thumbnail image.
-// Leave `id` empty on a slot you haven't shot/uploaded yet and it'll show
-// a placeholder instead of breaking.
-const REELS = [
-  { id: "", title: "Behind the Scenes", category: "BTS" },
-  { id: "", title: "Podcast Clip", category: "NESTLEVEL" },
-  { id: "", title: "Quick Tip", category: "Automation" },
-  { id: "", title: "Day in the Life", category: "Nestlé" },
-  { id: "", title: "Product Demo", category: "AI Tools" },
-  { id: "", title: "Studio Setup", category: "Motion" },
-  { id: "", title: "Client Shoutout", category: "Testimonial" },
-  { id: "", title: "Trend Breakdown", category: "Content" },
+const SHORTS = [
+  "https://youtube.com/shorts/5vV5RcTTyDU",
+  "https://youtube.com/shorts/qQuqxikwp6s",
+  "https://youtube.com/shorts/KPqkmKwCju8",
+  "https://youtube.com/shorts/zESM6OBCOTU",
+  "https://youtube.com/shorts/kkFpHUpqSWc",
+  "https://youtube.com/shorts/aaPOUV8Vjw4",
+  "https://youtube.com/shorts/3fbjAk4_iHk",
+  "https://youtube.com/shorts/HkNF3tRG7v0",
+  "https://youtube.com/shorts/vBK5k76EYT4",
 ];
 
-// Fetches { thumbnail_url } for a given Vimeo ID via Vimeo's public oEmbed
-// endpoint — no API key needed. Vimeo's oEmbed responses are served with
-// CORS enabled, so this call is safe to make directly from the browser.
-function useVimeoThumbnail(id) {
-  const [thumb, setThumb] = useState(null);
+// Accepts a full youtube.com/shorts/, youtu.be/, watch?v= link, or a bare
+// 11-character video ID, and returns just the ID.
+function getYouTubeId(input) {
+  if (!input) return "";
+  const trimmed = input.trim();
+
+  if (/^[\w-]{10,12}$/.test(trimmed)) return trimmed;
+
+  try {
+    const url = new URL(trimmed);
+    if (url.hostname.includes("youtu.be")) return url.pathname.split("/")[1] || "";
+    if (url.pathname.startsWith("/shorts/")) return url.pathname.split("/shorts/")[1]?.split("/")[0] || "";
+    if (url.pathname.startsWith("/embed/")) return url.pathname.split("/embed/")[1]?.split("/")[0] || "";
+    const v = url.searchParams.get("v");
+    if (v) return v;
+  } catch {
+    // not a parseable URL — fall through and return as-is
+  }
+  return trimmed;
+}
+
+function normalizeShort(entry) {
+  const url = typeof entry === "string" ? entry : entry.url;
+  const category = typeof entry === "string" ? undefined : entry.category;
+  return { id: getYouTubeId(url), category };
+}
+
+// Fetches { title, thumbnail_url } for a given video ID via YouTube's
+// public oEmbed endpoint — no API key needed, CORS-enabled, safe to call
+// straight from the browser.
+function useYouTubeOEmbed(id) {
+  const [data, setData] = useState(null);
   const [status, setStatus] = useState(id ? "loading" : "empty");
 
   useEffect(() => {
@@ -36,14 +59,14 @@ function useVimeoThumbnail(id) {
     let cancelled = false;
     setStatus("loading");
 
-    fetch(`https://vimeo.com/api/oembed.json?url=https://vimeo.com/${id}`)
+    fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(`https://www.youtube.com/watch?v=${id}`)}&format=json`)
       .then((res) => {
         if (!res.ok) throw new Error("oEmbed request failed");
         return res.json();
       })
-      .then((data) => {
+      .then((json) => {
         if (cancelled) return;
-        setThumb(data.thumbnail_url_with_play_button || data.thumbnail_url);
+        setData(json);
         setStatus("ready");
       })
       .catch(() => {
@@ -55,17 +78,17 @@ function useVimeoThumbnail(id) {
     };
   }, [id]);
 
-  return { thumb, status };
+  return { data, status };
 }
 
-function ReelCard({ reel, onOpen }) {
+function ShortCard({ short, onOpen }) {
   const [hovered, setHovered] = useState(false);
-  const { thumb, status } = useVimeoThumbnail(reel.id);
-  const hasVideo = Boolean(reel.id);
+  const { data, status } = useYouTubeOEmbed(short.id);
+  const hasVideo = Boolean(short.id);
 
   return (
     <button
-      onClick={() => hasVideo && onOpen(reel)}
+      onClick={() => hasVideo && onOpen(short)}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onFocus={() => setHovered(true)}
@@ -76,13 +99,15 @@ function ReelCard({ reel, onOpen }) {
 
       {!hasVideo || status === "error" ? (
         <div className="absolute inset-0 flex items-center justify-center bg-zinc-900 px-4 text-center">
-          <p className="font-mono-label text-[10px] uppercase tracking-widest text-white/30">Add Vimeo ID</p>
+          <p className="font-mono-label text-[10px] uppercase tracking-widest text-white/30">
+            {hasVideo ? "Couldn't load this Short" : "Add a YouTube Shorts link"}
+          </p>
         </div>
       ) : (
-        thumb && (
+        data?.thumbnail_url && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={thumb}
+            src={data.thumbnail_url}
             alt=""
             aria-hidden="true"
             loading="lazy"
@@ -95,19 +120,19 @@ function ReelCard({ reel, onOpen }) {
           so we're not running a dozen background iframes at once. */}
       {hovered && hasVideo && (
         <iframe
-          key={reel.id}
-          src={`https://player.vimeo.com/video/${reel.id}?background=1&autoplay=1&loop=1&muted=1`}
+          key={short.id}
+          src={`https://www.youtube.com/embed/${short.id}?autoplay=1&mute=1&loop=1&playlist=${short.id}&controls=0&modestbranding=1&rel=0&playsinline=1`}
           className="absolute inset-0 h-full w-full"
-          allow="autoplay; fullscreen"
-          title={reel.title}
+          allow="autoplay; encrypted-media"
+          title={data?.title || "YouTube Short preview"}
         />
       )}
 
       <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
 
-      {reel.category && (
+      {short.category && (
         <span className="absolute left-3 top-3 rounded-full bg-white/15 px-3 py-1 text-[10px] text-white backdrop-blur-md">
-          {reel.category}
+          {short.category}
         </span>
       )}
 
@@ -119,16 +144,20 @@ function ReelCard({ reel, onOpen }) {
         </div>
       )}
 
-      <p className="absolute bottom-3 left-3 right-3 text-left font-serif-display text-sm italic text-white">
-        {reel.title}
-      </p>
+      {data?.title && (
+        <p className="absolute bottom-3 left-3 right-3 line-clamp-2 text-left font-serif-display text-sm italic text-white">
+          {data.title}
+        </p>
+      )}
     </button>
   );
 }
 
-export default function Reels() {
-  const [activeReel, setActiveReel] = useState(null);
+export default function Shorts() {
+  const [activeShort, setActiveShort] = useState(null);
   const scrollerRef = useRef(null);
+
+  const shorts = SHORTS.map(normalizeShort);
 
   const scrollByCards = (dir) => {
     scrollerRef.current?.scrollBy({ left: dir * 240, behavior: "smooth" });
@@ -142,24 +171,24 @@ export default function Reels() {
             <div>
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-zinc-300 backdrop-blur">
                 <Sparkles className="h-4 w-4" />
-                Reels
+                Shorts
               </div>
               <h2 className="font-serif-display text-4xl text-white md:text-5xl">
-                Short-form, straight from Vimeo
+                Some of Creations
               </h2>
             </div>
 
             <div className="flex gap-2">
               <button
                 onClick={() => scrollByCards(-1)}
-                aria-label="Scroll reels left"
+                aria-label="Scroll shorts left"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white transition hover:bg-white/10"
               >
                 <ChevronLeft size={18} />
               </button>
               <button
                 onClick={() => scrollByCards(1)}
-                aria-label="Scroll reels right"
+                aria-label="Scroll shorts right"
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-white/15 text-white transition hover:bg-white/10"
               >
                 <ChevronRight size={18} />
@@ -168,26 +197,28 @@ export default function Reels() {
           </div>
         </div>
 
-        {/* Horizontal, swipeable on touch, scroll-snapped on desktop */}
+        {/* Horizontal, swipeable on touch, scroll-snapped on desktop.
+            Add more entries to SHORTS above and they show up here — the
+            row just keeps growing, no layout changes needed. */}
         <div
           ref={scrollerRef}
           className="flex snap-x snap-mandatory gap-4 overflow-x-auto px-6 pb-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
-          {REELS.map((reel, i) => (
-            <ReelCard key={reel.title + i} reel={reel} onOpen={setActiveReel} />
+          {shorts.map((short, i) => (
+            <ShortCard key={short.id + i} short={short} onOpen={setActiveShort} />
           ))}
         </div>
       </section>
 
       {/* Full player — real controls, real audio, opened on click */}
       <AnimatePresence>
-        {activeReel && (
+        {activeShort && (
           <motion.div
             className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/90 p-6 backdrop-blur"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={() => setActiveReel(null)}
+            onClick={() => setActiveShort(null)}
           >
             <motion.div
               initial={{ scale: 0.9 }}
@@ -198,7 +229,7 @@ export default function Reels() {
               onClick={(e) => e.stopPropagation()}
             >
               <button
-                onClick={() => setActiveReel(null)}
+                onClick={() => setActiveShort(null)}
                 className="absolute right-4 top-4 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-white text-black"
               >
                 <X size={20} />
@@ -206,10 +237,10 @@ export default function Reels() {
 
               <iframe
                 className="h-full w-full"
-                src={`https://player.vimeo.com/video/${activeReel.id}?autoplay=1&title=0&byline=0&portrait=0`}
-                allow="autoplay; fullscreen"
+                src={`https://www.youtube.com/embed/${activeShort.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`}
+                allow="autoplay; encrypted-media; fullscreen"
                 allowFullScreen
-                title={activeReel.title}
+                title="YouTube Short"
               />
             </motion.div>
           </motion.div>
