@@ -1,24 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Play, X, ArrowUpRight } from "lucide-react";
 import EditorialArt from "./EditorialArt";
 
+
 const CATEGORIES = ["All", "Motion", "Nestlé", "Web3 & Brand", "Automation"];
 
-// Swap `id` for your real Vimeo/YouTube IDs once you have them — the art
-// panels (no images required) can stay as-is or be replaced with real
-// stills whenever you have them; just drop an <img> where <EditorialArt>
-// is used below.
-const VIDEOS = [
-  { id: "76979871", title: "Motion Reel", category: "Motion", letter: "M" },
-  { id: "76979871", title: "Brand Motion Graphics", category: "Motion", letter: "B" },
-  { id: "1210863131", title: "Nestlé Talent Attraction Insights", category: "Nestlé", letter: "N" },
-  { id: "76979871", title: "Nestlé Recruiter Toolkit", category: "Nestlé", letter: "R" },
-  { id: "76979871", title: "Create Protocol — 3D Foodverse, Dubai", category: "Web3 & Brand", letter: "W" },
-  { id: "76979871", title: "AI Script-to-Social Pipeline", category: "Automation", letter: "A" },
-];
 
 function VideoCard({ video, onClick }) {
   return (
@@ -28,7 +17,11 @@ function VideoCard({ video, onClick }) {
       onClick={() => onClick(video)}
       className="group relative h-[260px] w-[320px] flex-shrink-0 overflow-hidden rounded-3xl border border-[var(--line)] md:h-[280px] md:w-[360px]"
     >
-      <EditorialArt letter={video.letter} tone="dark" label={video.category} className="absolute inset-0" />
+ <img
+  src={video.thumb}
+  alt={video.title}
+  className="absolute inset-0 h-full w-full object-cover"
+/>
 
       <motion.div
         whileHover={{ scale: 1.08 }}
@@ -53,10 +46,23 @@ export default function OurCases() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [activeVideo, setActiveVideo] = useState(null);
 
-  const filtered = useMemo(
-    () => (activeCategory === "All" ? VIDEOS : VIDEOS.filter((v) => v.category === activeCategory)),
-    [activeCategory]
-  );
+const [videos, setVideos] = useState([]);
+
+useEffect(() => {
+fetch("/api/videos")
+  .then((r) => r.json())
+  .then((data) => {
+    console.log(data);
+    setVideos(data);
+  })
+  .catch(console.error);
+}, []);
+
+const filtered = useMemo(() => {
+  return activeCategory === "All"
+    ? videos
+    : videos.filter((v) => v.category === activeCategory);
+}, [videos, activeCategory]);
 
   return (
     <>

@@ -19,13 +19,12 @@ export default function Portfolio() {
       <Navbar />
       <Hero />
       <CapabilitiesStrip />
-         <Reels />
+      <Reels />
       <About />
-      <Videos />
-      <Experience />
-   
-      <Campaigns />
       <OurCases />
+      <Experience />
+      <Campaigns />
+      <Videos />
       <AutomationShowcase />
       {/* <Stats /> */}
       {/* <Benefits /> */}

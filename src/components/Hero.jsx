@@ -17,9 +17,7 @@ import {
 import {
   Play,
   X,
-  ArrowUpRight,
 } from "lucide-react";
-
 function VideoCard({ video, onClick }) {
   return (
     <motion.button
@@ -43,13 +41,7 @@ function VideoCard({ video, onClick }) {
         </div>
       </div>
 
-      <div className="absolute bottom-5 left-5 right-5 flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-white">
-          {video.title}
-        </h3>
 
-        <ArrowUpRight className="h-5 w-5 text-white" />
-      </div>
     </motion.button>
   );
 }

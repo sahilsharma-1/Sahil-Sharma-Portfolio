@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Globe } from "lucide-react";
+import { Globe, Phone, ArrowUpRight } from "lucide-react";
 import { FaLinkedin } from "react-icons/fa6";
 
 const COLUMNS = [
@@ -40,7 +40,7 @@ export default function Footer() {
 
             <div className="mt-6 flex items-center gap-3">
               <a
-                href="https://www.linkedin.com/in/sahilsharma-86b256216/"
+                href="https://www.linkedin.com/in/sahil-sharma-86b256216/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
@@ -49,7 +49,7 @@ export default function Footer() {
                 <FaLinkedin size={16} />
               </a>
               <a
-                href="https://itsahil613.wixsite.com/sahilsharma"
+                href="https://1drv.ms/f/c/9D204D9914DB706E/IgBgo9Xa7FDcRLCePzdpDX1rAfGzqTyrOcC_63hQdRj_c1g?e=BicBpG"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Portfolio website"
